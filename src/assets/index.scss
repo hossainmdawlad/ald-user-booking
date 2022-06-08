@@ -1,0 +1,77 @@
+@import '~js-tabs/src/js-tabs-base';
+@import '../../node_modules/vanillajs-datepicker/sass/datepicker.scss';
+
+.js-tabs__tab {
+    padding: 10px 10px;
+    &:nth-child(1) {
+      color: #ff4081;
+    }
+
+    &:nth-child(2) {
+      color: #2196f3;
+    }
+
+    &:nth-child(3) {
+      color: #d50000;
+    }
+
+    &:nth-child(4) {
+      color: #00695c;
+    }
+}
+.js-tabs__content{
+    padding: 20px 20px;
+    .date_block{
+        padding-bottom: 20px;
+    }
+}
+.ald_user_booking{
+    #ald_user_booking-js-tabs{
+        #ald_user_booking{
+            .datepicker-picker{
+                width: 100%;
+                .datepicker-header{
+                    .datepicker-controls{
+                        .btn{
+                            padding: 10px;
+                        }
+                    }
+                }
+                .datepicker-main{
+                    .days{
+                        width: 100%;
+                        .datepicker-grid{
+                            width: 100%;
+                        } 
+                    }
+                }
+            }
+        }
+        input#ald_user_booking_monthly{
+            padding: 5px;
+        }
+        
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            th{
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+            td, th{
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+            tr:nth-child(even){
+                background-color: #f2f2f2;
+            }
+            tr:hover {
+                background-color: #ddd;
+            }
+        }
+    }
+    
+}
