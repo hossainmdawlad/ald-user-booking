@@ -18,3 +18,14 @@ function ald_user_booking_plugin_menu() {
 		);
 }
 add_action('admin_menu', 'ald_user_booking_plugin_menu');
+
+function ald_user_booking_list_page() {
+	add_submenu_page(
+		'ald_user_booking',
+		'Booking List',
+		'Booking List',
+		'manage_options',
+		'ald_user_booking_list',
+		'ald_user_booking_list' );
+}
+add_action('admin_menu', 'ald_user_booking_list_page');

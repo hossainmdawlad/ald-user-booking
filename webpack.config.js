@@ -65,6 +65,7 @@ function getEntryFiles() {
     const entries = {
         // Theme css/js
         'js/scripts.bundle': srcPath+'/assets/index.js',
+        'js/admin_option.bundle': srcPath+'/assets/admin_option.js',
         
         // 'css/style.bundle': [distPath+'/scss/main.scss',distPath+'/scss/styles.scss'],
         'css/style.bundle': srcPath+'/assets/index.scss',

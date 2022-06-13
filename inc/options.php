@@ -30,7 +30,67 @@ function ald_user_booking_index(){
 	<?php 
     if ( current_user_can('manage_options')){
 	?>
-	
+	<form action="<?php echo admin_url( 'admin.php' ); ?>" method="post">
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th scope="row"><?php echo __( 'Email Recipient', 'ald_user_booking' ); ?></th>
+					<td>
+						<table class="form-table" id="repeatable-recipientEmail">
+							<tbody>
+								<?php 
+								if (get_option( 'ald_user_booking_recipientemail' )) {
+									foreach (get_option( 'ald_user_booking_recipientemail' ) as $key => $m_email) {
+										?>
+									<tr>
+										<td>	
+											<input type="email" name="recipientEmail[]" placeholder="<?php echo __( 'Email Recipient', 'ald_user_booking' ); ?>" class="regular-text" value="<?php echo $m_email; ?>" required />
+										</td>
+										<td><a class="button remove-recipientEmail" href="#">Remove</a></td>
+									</tr>
+								<?php
+									}
+								}else {
+								?>
+									<tr>
+										<td>
+											<input type="email" name="recipientEmail[]" placeholder="<?php echo __( 'Email Recipient', 'ald_user_booking' ); ?>" class="regular-text" value="" required />
+										</td>
+										<td><a class="button  cmb-remove-row-button button-disabled" href="#">Remove</a></td>
+									</tr>
+								<?php
+								}
+								?>
+								
+								<tr class="empty-row-recipientEmail screen-reader-text">
+									<td>
+										<input type="email" name="recipientEmail[]" placeholder="<?php echo __( 'Email Recipient', 'ald_user_booking' ); ?>" class="regular-text" value="" />
+									</td>
+									<td><a class="button remove-recipientEmail" href="#">Remove</a></td>
+								</tr>
+							</tbody>
+						</table>
+						<p><a id="add-recipientEmail" class="button" href="#">Add another</a></p>
+					</td>
+				</tr>
+				
+				<tr>
+					<th scope="row"><?php echo __( 'Sender Name', 'ald_user_booking' ); ?></th>
+					<td>	
+						<input type="text" name="senderName" placeholder="<?php echo __( 'Sender Name', 'ald_user_booking' ); ?>" class="regular-text" value="<?php echo (get_option( 'ald_user_booking_senderName' )) ? get_option( 'ald_user_booking_senderName' ):'' ; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php echo __( 'Sender Email', 'ald_user_booking' ); ?></th>
+					<td>	
+						<input type="email" name="senderEmail" placeholder="<?php echo __( 'Sender Email', 'ald_user_booking' ); ?>" class="regular-text" value="<?php echo (get_option( 'ald_user_booking_senderEmail' )) ? get_option( 'ald_user_booking_senderEmail' ):'' ; ?>" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<input type="hidden" name="action" value="save_ald_user_booking_option" />
+		<input type="submit" value="<?php echo __( 'Save', 'ald_user_booking' ); ?>" class="button button-primary" />
+	</form>
 	<?php
 	}
 }

@@ -15,15 +15,89 @@ const elem = document.getElementById('ald_user_booking');
 const datepicker = new Datepicker(elem, {
     buttonClass: 'btn',
     daysOfWeekDisabled: [0,6],
-    format: 'dd/mm/yyyy',
-    minDate: Date.now(),
+    // format: 'dd/mm/yyyy',
+    // minDate: Date.now(),
     defaultViewDate: Date.now(),
     todayHighlight: true,
-    maxNumberOfDates: 22,
+    maxNumberOfDates: 300,
     datesDisabled: [],
     maxView: 2,
 
 }); 
+// datepicker.setDate(['08/06/2022', '01/06/2022', '18/06/2022', '28/06/2022'],{
+//     // format: 'dd/mm/yyyy',
+// });
+
+elem.addEventListener('click', function(e){
+    console.log(e.target.getAttribute("data-date"));
+    const unixTimestamp = e.target.getAttribute("data-date");
+    const milliseconds = unixTimestamp * 1000; // 1575909015000
+    const dateObject = new Date(milliseconds);
+    const humanDateFormat = new Date(e.target.getAttribute("data-date"));
+    
+    // console.log(datepicker.getDate());
+
+    // return false;
+    let formData = new FormData();
+    formData.append( 'action', 'store_user_booking' );
+    formData.append("submitted_date", e.target.getAttribute("data-date"));
+    
+    fetch(ald_user_bookingAjax.ajaxurl, {
+        credentials: 'same-origin',
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(json => {
+        console.log(json);
+    if (json.status == 200) {
+        console.log(json.message);
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].innerHTML = json.message;
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.display = 'block';
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.borderColor = 'green';
+    }else{
+        console.log(json.error);
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].innerHTML = json.error;
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.display = 'block';
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.borderColor = 'red';
+    }
+    })
+    .catch(err => {
+        console.log('Request Failed', err);
+    });
+});
+
+elem.addEventListener('changeDate', function(){
+    return false;
+    console.log(datepicker.getDate());
+    let formData = new FormData();
+    formData.append( 'action', 'store_user_booking' );
+    formData.append("submitted_date", datepicker.getDate('dd/mm/yyyy'));
+    
+    fetch(ald_user_bookingAjax.ajaxurl, {
+        credentials: 'same-origin',
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(json => {
+        console.log(json);
+    if (json.status == 200) {
+        console.log(json.message);
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].innerHTML = json.message;
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.display = 'block';
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.borderColor = 'green';
+    }else{
+        console.log(json.error);
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].innerHTML = json.error;
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.display = 'block';
+        // mailcrypt_terget_form.getElementsByClassName("mailcrypt-response-output")[0].style.borderColor = 'red';
+    }
+    })
+    .catch(err => {
+        console.log('Request Failed', err);
+    });
+});
 
 const month_elem = document.getElementById('ald_user_booking_monthly');
 const monthly_user_calender = new Datepicker(month_elem, {

@@ -40,7 +40,10 @@ define( 'ALD_USER_BOOKING_ASSETS_URL', plugins_url( '/assets', __FILE__ ) );
 /**
  * Add all include files
  */
+require_once ALD_USER_BOOKING_MAIN_DIR. '/inc/install.php';
 require_once ALD_USER_BOOKING_MAIN_DIR. '/inc/enqueue.php';
 require_once ALD_USER_BOOKING_MAIN_DIR. '/inc/menu.php';
 require_once ALD_USER_BOOKING_MAIN_DIR. '/inc/options.php';
+require_once ALD_USER_BOOKING_MAIN_DIR. '/inc/ald_user_booking_list.php';
 require_once ALD_USER_BOOKING_MAIN_DIR. '/inc/shortcode.php';
+require_once ALD_USER_BOOKING_MAIN_DIR. '/inc/helper.php';
