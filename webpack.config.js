@@ -57,7 +57,10 @@ module.exports = {
                 ],
             },
         ]
-    }
+    },
+    experiments: {
+        topLevelAwait: true,
+    },
 }
 
 function getEntryFiles() {
