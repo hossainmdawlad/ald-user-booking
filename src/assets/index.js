@@ -49,6 +49,37 @@ async function get_single_user_booking_dates(){
     return data;
 }
 
+var todays_bookings = await todays_booking();
+var todays_bookings_html = '';
+todays_bookings.forEach(todays_booking => {
+    todays_bookings_html +='<tr>';
+    todays_bookings_html +='<td>';
+    todays_bookings_html +=todays_booking.display_name;
+    todays_bookings_html +='</td>';
+    todays_bookings_html +='<td>';
+    todays_bookings_html +=new Date(todays_booking.updated_at).toDateString();
+    todays_bookings_html +='</td>';
+    todays_bookings_html +='</tr>';
+});
+document.querySelector('#ald_user_booking_todays_booking tbody').innerHTML=todays_bookings_html;
+document.querySelector('#ald_user_booking_todays_booking tfoot tr td:first-child').innerHTML='Total= '+todays_bookings.length;
+
+async function todays_booking(){
+    let formData = new FormData();
+    formData.append( 'action', 'todays_booking' );
+    
+    const response = await fetch(ald_user_bookingAjax.ajaxurl, {
+        credentials: 'same-origin',
+        method: "POST",
+        body: formData,
+    })
+    .catch(err => {
+        console.log('Request Failed', err);
+    });
+    const data = await response.json();
+    return data;
+}
+
 elem.addEventListener('click', function(e){
     console.log(e.target.getAttribute("data-date"));
     const unixTimestamp = e.target.getAttribute("data-date");

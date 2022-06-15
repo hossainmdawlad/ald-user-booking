@@ -64,6 +64,42 @@ function get_single_user_booking_dates()
 add_action('wp_ajax_get_single_user_booking_dates','get_single_user_booking_dates');
 add_action('wp_ajax_nopriv_get_single_user_booking_dates','get_single_user_booking_dates');
 
+function todays_booking()
+{
+    if (is_user_logged_in()) {
+        try {
+            date_default_timezone_set(wp_timezone_string());
+            $booking_date = date('Y-m-d');
+            $get_todays_booking = get_todays_booking($booking_date);
+            // print_r( $get_todays_booking );
+            wp_send_json( $get_todays_booking );
+        } catch (\Throwable $th) {
+            // throw $th;
+            wp_send_json( $th );
+        }
+    }else{
+        $message = __('You need to login for booking','ald_user_booking');
+        wp_send_json( $message );
+    }
+    
+    wp_die();
+}
+add_action('wp_ajax_todays_booking','todays_booking');
+add_action('wp_ajax_nopriv_todays_booking','todays_booking');
+
+function get_todays_booking($booking_date){
+    global $wpdb;
+    $ald_user_booking_table = ALD_USER_BOOKING_TABLE;
+    $user_table = ALD_USER_TABLE;
+    // return $get_todays_booking = $wpdb->prepare("SELECT `user_id`,`updated_at` FROM $ald_user_booking_table WHERE 
+    //              DATE(`booking_date`) = DATE(NOW())");
+    return $get_todays_booking = $wpdb->get_results("SELECT $user_table.display_name,$ald_user_booking_table.`updated_at` FROM $ald_user_booking_table 
+    INNER JOIN $user_table ON 
+    $ald_user_booking_table.`user_id`=`$user_table`.`ID`
+    WHERE 
+    DATE($ald_user_booking_table.`booking_date`) = DATE(NOW()) ");
+}
+
 function get_user_booking_dates($user_id)
 {
     global $wpdb;

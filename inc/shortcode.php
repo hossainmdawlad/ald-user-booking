@@ -8,7 +8,8 @@ function ald_user_booking_func( $atts ){
 							<li class="js-tabs__tab active">My Booking</li>
 							<li class="js-tabs__tab">Todays Booking</li>
 							<li class="js-tabs__tab">Date wise Booking</li>
-							<li class="js-tabs__tab">Tab 4</li>
+							<li class="js-tabs__tab" id="custom_tab">Custom Tab</li>
+							<li class="js-tabs__tab">Previous Day review</li>
 						</ul>
 						<div class="js-tabs__marker"></div>
 					</nav>
@@ -19,7 +20,7 @@ function ald_user_booking_func( $atts ){
 						</li>
 						<li class="js-tabs__content">
 							<div class="date_block"><strong class="date_today">Today</strong></div>
-							<table>
+							<table id="ald_user_booking_todays_booking">
 								<thead>
 									<tr>
 										<td>Name</td>
@@ -89,7 +90,10 @@ function ald_user_booking_func( $atts ){
 							</table>
 						</li>
 						<li class="js-tabs__content">
-							<p>Content 4</p>
+							<p>Custom tab</p>
+						</li>
+						<li class="js-tabs__content">
+							<div><strong>Submit previous day review</strong></div>
 						</li>
 					</ul>
 				</div>');

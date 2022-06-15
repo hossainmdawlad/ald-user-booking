@@ -29,8 +29,15 @@ function ald_user_booking_list(){
 	<br>
 	<?php 
     if ( current_user_can('manage_options')){
-	?>
-
-<?php
+        $bookingListTable = new Booking_List_Table();
+        ?>
+        <form method="post">
+        <?php
+        $bookingListTable->prepare_items();
+        $bookingListTable->search_box('Search', 'search');
+		$bookingListTable->display();
+        ?>
+        </form>
+        <?php
 	}
 }

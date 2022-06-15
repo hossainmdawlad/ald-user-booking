@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; } // Disallow direct HTTP access.
 
 
 define( 'ALD_USER_BOOKING_TABLE', $wpdb->prefix .'ald_user_booking' );
+define( 'ALD_USER_TABLE', $wpdb->prefix .'users' );
 
 function ald_user_booking_create_table(){
     global $wpdb;
