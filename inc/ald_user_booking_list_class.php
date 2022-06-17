@@ -11,11 +11,18 @@ class Booking_List_Table extends WP_List_Table
      */
     public function prepare_items()
     {
+        
+
         $columns = $this->get_columns();
         $hidden = $this->get_hidden_columns();
         $sortable = $this->get_sortable_columns();
 
-        $data = $this->table_data();
+        if (isset($_POST['page']) && isset($_POST['s'])) {
+            $data = $this->table_data($_POST['s']);
+        } else {
+            $data = $this->table_data();
+        }
+        
         usort( $data, array( &$this, 'sort_data' ) );
 
         $perPage = 5;
@@ -77,21 +84,36 @@ class Booking_List_Table extends WP_List_Table
      *
      * @return Array
      */
-    private function table_data()
+    private function table_data($search = "")
     {
         $data = array();
 		global $wpdb;
 		$ald_user_booking_table = ALD_USER_BOOKING_TABLE;
         $user_table = ALD_USER_TABLE;
-		$results = $wpdb->get_results("SELECT $ald_user_booking_table.`booking_date` as booking_date, 
+
+        if (!empty($search)) {
+            $results = $wpdb->get_results("SELECT $ald_user_booking_table.`booking_date` as booking_date, 
                             $user_table.display_name AS user ,
                             $ald_user_booking_table.`booking_quantity` as booking_quantity,
                             $ald_user_booking_table.`note` as note,
                             $ald_user_booking_table.`feedback` as feedback,
                             $ald_user_booking_table.`updated_at` as updated_at 
                             FROM $ald_user_booking_table 
-        INNER JOIN $user_table ON 
-        $ald_user_booking_table.`user_id`=`$user_table`.`ID`");
+                        INNER JOIN $user_table ON 
+                        $ald_user_booking_table.`user_id`=`$user_table`.`ID`
+                        WHERE $user_table.display_name Like '%{$search}%'");
+        }else{
+            $results = $wpdb->get_results("SELECT $ald_user_booking_table.`booking_date` as booking_date, 
+                            $user_table.display_name AS user ,
+                            $ald_user_booking_table.`booking_quantity` as booking_quantity,
+                            $ald_user_booking_table.`note` as note,
+                            $ald_user_booking_table.`feedback` as feedback,
+                            $ald_user_booking_table.`updated_at` as updated_at 
+                            FROM $ald_user_booking_table 
+                        INNER JOIN $user_table ON 
+                        $ald_user_booking_table.`user_id`=`$user_table`.`ID`");
+        }
+		
 
 		foreach ( $results as $booking )
 		{
@@ -163,29 +185,6 @@ class Booking_List_Table extends WP_List_Table
         }
 
         return -$result;
-    }
-
-    function search_box( $text, $input_id ) {
-        if ( empty( $_REQUEST['s'] ) && !$this->has_items() )
-            return;
-    
-        $input_id = $input_id . '-search-input';
-    
-        if ( ! empty( $_REQUEST['orderby'] ) )
-            echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
-        if ( ! empty( $_REQUEST['order'] ) )
-            echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
-        if ( ! empty( $_REQUEST['post_mime_type'] ) )
-            echo '<input type="hidden" name="post_mime_type" value="' . esc_attr( $_REQUEST['post_mime_type'] ) . '" />';
-        if ( ! empty( $_REQUEST['detached'] ) )
-            echo '<input type="hidden" name="detached" value="' . esc_attr( $_REQUEST['detached'] ) . '" />';
-    ?>
-    <p class="search-box">
-    <label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-    <input type="search" id="<?php echo $input_id ?>" name="s" value="<?php _admin_search_query(); ?>" />
-    <?php submit_button( $text, 'button', false, false, array('id' => 'search-submit') ); ?>
-    </p>
-    <?php
     }
 
 }

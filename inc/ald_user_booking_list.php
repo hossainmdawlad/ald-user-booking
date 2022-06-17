@@ -8,11 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; } // Disallow direct HTTP access.
  */
 function ald_user_booking_list(){
 	$current_user = wp_get_current_user();
-	?>
-	<div class="wrap">
-	<span class="alignleft"><h1><?php echo __( 'Booking List', 'ald_user_booking' ); ?></h1></span>
-  <span class="alignright"><h2><?php echo __( 'Welcome', 'ald_user_booking' ); ?>, <?php echo $current_user->display_name; ?> </h2></span>
-  <?php
         if(isset($_GET['message']) ){
             if( $_GET['message'] = 'true'){
                 ?>
@@ -30,14 +25,17 @@ function ald_user_booking_list(){
 	<?php 
     if ( current_user_can('manage_options')){
         $bookingListTable = new Booking_List_Table();
+        echo '<div class="wrap"><h2>'.__( 'Booking List', 'ald_user_booking' ).'</h2>';
+        
+        $bookingListTable->prepare_items();
         ?>
         <form method="post">
-        <?php
-        $bookingListTable->prepare_items();
-        $bookingListTable->search_box('Search', 'search');
-		$bookingListTable->display();
-        ?>
+                <input type="hidden" name="page" value="employees_list_table" />
+                <?php $bookingListTable->search_box('search', 'search_id'); ?>
         </form>
         <?php
+		$bookingListTable->display();
+        
+        echo '</div>';
 	}
 }
