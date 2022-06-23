@@ -81,18 +81,13 @@ async function todays_booking(){
 }
 
 elem.addEventListener('click', function(e){
-    console.log(e.target.getAttribute("data-date"));
-    const unixTimestamp = e.target.getAttribute("data-date");
-    const milliseconds = unixTimestamp * 1000; // 1575909015000
-    const dateObject = new Date(milliseconds);
-    const humanDateFormat = new Date(e.target.getAttribute("data-date"));
-    
-    // console.log(datepicker.getDate());
-
+    // console.log(e.target.getAttribute("data-date"));
+    const arr_date = datepicker.getDate('yyyy-mm-dd');
+    console.log(arr_date[arr_date.length-1]);
     // return false;
     let formData = new FormData();
     formData.append( 'action', 'store_user_booking' );
-    formData.append("submitted_date", e.target.getAttribute("data-date"));
+    formData.append("submitted_date", arr_date[arr_date.length-1]);
     
     fetch(ald_user_bookingAjax.ajaxurl, {
         credentials: 'same-origin',
@@ -141,3 +136,25 @@ ald_user_booking_Tabs.init();
 // monthly_user_calender.init();
 // datepicker.init();
 
+document.querySelector('button#prev_feedback_submit').addEventListener('click',function (e) { 
+    let formData = new FormData();
+    formData.append( 'action', 'store_prev_feedback' );
+    formData.append("prev_feedback", document.querySelector('textarea#prev_feedback').value);
+    
+    fetch(ald_user_bookingAjax.ajaxurl, {
+        credentials: 'same-origin',
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(json => {
+        console.log(json);
+        if (json.status == 200) {
+            console.log(json.message);
+            console.log(json.error);
+        }
+    })
+    .catch(err => {
+        console.log('Request Failed', err);
+    });
+})

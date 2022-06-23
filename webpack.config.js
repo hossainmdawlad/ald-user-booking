@@ -13,6 +13,7 @@ const distPath = corePath + '/assets';
 
 module.exports = {
     entry:getEntryFiles(),
+    // watch: true,
     output: {
         path: distPath,
         filename: '[name].js',

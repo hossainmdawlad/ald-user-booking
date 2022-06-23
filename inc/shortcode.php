@@ -94,6 +94,12 @@ function ald_user_booking_func( $atts ){
 						</li>
 						<li class="js-tabs__content">
 							<div><strong>Submit previous day review</strong></div>
+							<div>
+								<textarea id="prev_feedback"></textarea>
+							</div>
+							<div>
+								<button class="btn" id="prev_feedback_submit">Submit</button>
+							</div>
 						</li>
 					</ul>
 				</div>');
