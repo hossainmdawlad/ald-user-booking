@@ -30,7 +30,51 @@
     textarea#prev_feedback {
         width: 100%;
         height: 120px;
+        margin-top: 10px;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
+        border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+        border-image: none;
+        border-radius: 6px 6px 6px 6px;
+        border-style: none solid solid none;
+        border-width: medium 1px 1px medium;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+        color: #555555;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 1em;
+        line-height: 1.4em;
+        padding: 5px 8px;
+        transition: background-color 0.2s ease 0s;
     }
+    .status{
+        background-color: #ccc;
+        padding:12px;
+        width: 100%;
+        max-width: 400px;
+        margin-top: 10px;
+        border-radius: 3px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #191919;
+      }
+      
+      .error{
+        background-color: #FFF7DD;
+        border: 1px solid #D2AF4D;
+      }
+      
+      .warning{
+        background-color: #F7DCDC;
+        border: 1px solid #EA6666;
+      }
+      
+      .success{
+        background-color: #D9F0DE;
+        border: 1px solid #50B664;
+      }
 }
 .ald_user_booking{
     #ald_user_booking-js-tabs{

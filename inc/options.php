@@ -86,6 +86,35 @@ function ald_user_booking_index(){
 						<input type="email" name="senderEmail" placeholder="<?php echo __( 'Sender Email', 'ald_user_booking' ); ?>" class="regular-text" value="<?php echo (get_option( 'ald_user_booking_senderEmail' )) ? get_option( 'ald_user_booking_senderEmail' ):'' ; ?>" />
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><?php echo __( 'Custom Tab Name', 'ald_user_booking' ); ?></th>
+					<td>	
+						<input type="text" name="custom_tab_name" placeholder="<?php echo __( 'Custom Tab Name', 'ald_user_booking' ); ?>" class="regular-text" value="<?php echo (get_option( 'ald_user_booking_custom_tab_name' )) ? get_option( 'ald_user_booking_custom_tab_name' ):'' ; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php echo __( 'Custom Tab Contents', 'ald_user_booking' ); ?></th>
+					<td>
+						<div class="customEditor">
+							<?php wp_editor( 
+									(get_option( 'ald_user_booking_custom_tab_contents' )) ? get_option( 'ald_user_booking_custom_tab_contents' ):'',
+									'custom_tab_contents', $settings = array('textarea_name'=>'custom_tab_contents')
+								); ?> 
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php echo __( 'Extra booking per day', 'ald_user_booking' ); ?></th>
+					<td>	
+						<input type="number" min="0" name="extra_booking_per_day" class="regular-text" value="<?php echo (get_option( 'ald_user_booking_extra_booking_per_day' )) ? get_option( 'ald_user_booking_extra_booking_per_day' ):0 ; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php echo __( 'Email notification interval (day)', 'ald_user_booking' ); ?></th>
+					<td>	
+						<input type="number" min="0" name="email_notification_interval" class="regular-text" value="<?php echo (get_option( 'ald_user_booking_email_notification_interval' )) ? get_option( 'ald_user_booking_email_notification_interval' ):0 ; ?>" />
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<input type="hidden" name="action" value="save_ald_user_booking_option" />
@@ -94,3 +123,90 @@ function ald_user_booking_index(){
 	<?php
 	}
 }
+
+function save_ald_user_booking_option_admin_action()
+{
+	if (!empty($_POST['senderName'])){
+			
+		$senderName = sanitize_text_field( $_POST['senderName'] );
+		
+		if(get_option( 'ald_user_booking_senderName' )){
+			update_option( 'ald_user_booking_senderName', $senderName );
+		}else{
+			add_option( 'ald_user_booking_senderName', $senderName );
+		}
+	}
+
+	if (!empty($_POST['senderEmail'])){
+		$senderEmail = sanitize_email( $_POST['senderEmail'] );
+		if(get_option( 'ald_user_booking_senderEmail' )){
+			update_option( 'ald_user_booking_senderEmail', $senderEmail );
+		}else{
+			add_option( 'ald_user_booking_senderEmail', $senderEmail );
+		}
+	}
+
+	$recipient_email = [];
+	foreach ($_POST['recipientEmail'] as $key => $recipientEmail) {
+		if (!empty($recipientEmail)){
+			$recipient_email[] = sanitize_email( $recipientEmail );
+		}
+	}
+
+	if (count($recipient_email)>0) {
+		if(get_option( 'ald_user_booking_recipientemail' )){
+			update_option( 'ald_user_booking_recipientemail', $recipient_email );
+		}else{
+			add_option( 'ald_user_booking_recipientemail', $recipient_email );
+		}
+	}
+
+	if (!empty($_POST['custom_tab_name'])){
+			
+		$custom_tab_name = sanitize_text_field( $_POST['custom_tab_name'] );
+		
+		if(get_option( 'ald_user_booking_custom_tab_name' )){
+			update_option( 'ald_user_booking_custom_tab_name', $custom_tab_name );
+		}else{
+			add_option( 'ald_user_booking_custom_tab_name', $custom_tab_name );
+		}
+	}
+
+	if (!empty($_POST['custom_tab_contents'])){
+			
+		$custom_tab_contents = wp_kses( 
+			$_POST['custom_tab_contents'],
+			array(
+				'a' => array(
+					'href' => array(),
+					'title' => array(),
+					'target' => array(),
+				),
+				'img' => array(
+					'src' => array(),
+					'class' => array(),
+					'width' => array(),
+					'height' => array(),
+					'alt' => array(),
+				),
+				'br' => array(),
+				'em' => array(),
+				'strong' => array(),
+			)
+		);
+		
+		if(get_option( 'ald_user_booking_custom_tab_contents' )){
+			update_option( 'ald_user_booking_custom_tab_contents', $custom_tab_contents );
+		}else{
+			add_option( 'ald_user_booking_custom_tab_contents', $custom_tab_contents );
+		}
+	}
+
+	$msg = 'true';
+
+	$path = add_query_arg('message', $msg, $_SERVER['HTTP_REFERER']);
+	wp_redirect( $path, $status = 302 );
+	exit();
+		
+}
+add_action( 'admin_action_save_ald_user_booking_option', 'save_ald_user_booking_option_admin_action' );

@@ -179,24 +179,24 @@ function store_prev_feedback()
             if (!empty( (array)$booking_date_submit_check[0] ) ) {
                 feedback_add(get_current_user_id(),$previous_day ,$_POST['prev_feedback']);
                 $message = __('Feedback added','ald_user_booking');
-                wp_send_json( $message);
+                wp_send_json_success( $message, 200);
                 
             }else {
                 // $id = $booking_date_submit_check[0]['id'];
                 // // print_r($ids);
                 // booking_delete($id);
                 $message = __('You didn\'t book yesterday.','ald_user_booking');
-                wp_send_json( $message );
+                wp_send_json( $message, 199 );
             }
             
         } catch (\Throwable $th) {
             // throw $th;
-            wp_send_json( $th );
+            wp_send_json_error( $th, 400 );
     
         }
     }else{
         $message = __('You need to login for booking','ald_user_booking');
-        wp_send_json( $message );
+        wp_send_json_error( $message, 403 );
     }
     
     wp_die();
